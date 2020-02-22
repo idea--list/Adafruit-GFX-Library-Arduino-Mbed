@@ -1,13 +1,17 @@
 #ifndef _ADAFRUIT_GFX_H
 #define _ADAFRUIT_GFX_H
 
-#if ARDUINO >= 100
+#if defined(ARDUINO) && ARDUINO >= 100
 #include "Arduino.h"
 #include "Print.h"
-#else
+#elif defined(ARDUINO) && ARDUINO < 100
 #include "WProgram.h"
+#elif defined(__MBED__)
+#include "mbed.h"
+#include "Print.h"
 #endif
 #include "gfxfont.h"
+
 
 /// A generic graphics superclass that can handle all sorts of drawing. At a
 /// minimum you can subclass and provide drawPixel(). At a maximum you can do a
@@ -42,7 +46,7 @@ public:
   // These MAY be overridden by the subclass to provide device-specific
   // optimized code.  Otherwise 'generic' versions are used.
   virtual void setRotation(uint8_t r);
-  virtual void invertDisplay(boolean i);
+  virtual void invertDisplay(bool i);
 
   // BASIC DRAW API
   // These MAY be overridden by the subclass to provide device-specific
@@ -152,7 +156,7 @@ public:
   @param  w  true for wrapping, false for clipping
   */
   /**********************************************************************/
-  void setTextWrap(boolean w) { wrap = w; }
+  void setTextWrap(bool w) { wrap = w; }
 
   /**********************************************************************/
   /*!
@@ -168,14 +172,15 @@ public:
     @param  x  true = enable (new behavior), false = disable (old behavior)
   */
   /**********************************************************************/
-  void cp437(boolean x = true) { _cp437 = x; }
+  void cp437(bool x = true) { _cp437 = x; }
 
   using Print::write;
-#if ARDUINO >= 100
+#if (defined(ARDUINO) && ARDUINO >= 100) || defined(__MBED__)
   virtual size_t write(uint8_t);
 #else
   virtual void write(uint8_t);
 #endif
+
 
   /************************************************************************/
   /*!
@@ -233,7 +238,7 @@ protected:
   uint8_t textsize_x, ///< Desired magnification in X-axis of text to print()
       textsize_y,     ///< Desired magnification in Y-axis of text to print()
       rotation;       ///< Display rotation (0 thru 3)
-  boolean wrap,       ///< If set, 'wrap' text at right edge of display
+  bool wrap,       ///< If set, 'wrap' text at right edge of display
       _cp437;         ///< If set, use correct CP437 charset (default is off)
   GFXfont *gfxFont;   ///< Pointer to special font
 };
@@ -259,8 +264,8 @@ public:
                     uint16_t h, uint16_t outline, uint16_t fill,
                     uint16_t textcolor, char *label, uint8_t textsize_x,
                     uint8_t textsize_y);
-  void drawButton(boolean inverted = false);
-  boolean contains(int16_t x, int16_t y);
+  void drawButton(bool inverted = false);
+  bool contains(int16_t x, int16_t y);
 
   /**********************************************************************/
   /*!
@@ -268,13 +273,13 @@ public:
     @param    p  True for pressed, false for not.
   */
   /**********************************************************************/
-  void press(boolean p) {
+  void press(bool p) {
     laststate = currstate;
     currstate = p;
   }
 
-  boolean justPressed();
-  boolean justReleased();
+  bool justPressed();
+  bool justReleased();
 
   /**********************************************************************/
   /*!
@@ -282,7 +287,7 @@ public:
     @returns  True if pressed
   */
   /**********************************************************************/
-  boolean isPressed(void) { return currstate; };
+  bool isPressed(void) { return currstate; };
 
 private:
   Adafruit_GFX *_gfx;
@@ -293,7 +298,7 @@ private:
   uint16_t _outlinecolor, _fillcolor, _textcolor;
   char _label[10];
 
-  boolean currstate, laststate;
+  bool currstate, laststate;
 };
 
 /// A GFX 1-bit canvas context for graphics

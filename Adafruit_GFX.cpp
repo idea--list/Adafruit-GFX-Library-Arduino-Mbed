@@ -1528,7 +1528,7 @@ void Adafruit_GFX::getTextBounds(const __FlashStringHelper *str, int16_t x,
     @param   i  True if you want to invert, false to make 'normal'
 */
 /**************************************************************************/
-void Adafruit_GFX::invertDisplay(boolean i) {
+void Adafruit_GFX::invertDisplay(bool i) {
   // Do nothing, must be subclassed if supported by hardware
 }
 
@@ -1660,7 +1660,7 @@ void Adafruit_GFX_Button::initButtonUL(Adafruit_GFX *gfx, int16_t x1,
    'pressed'
 */
 /**************************************************************************/
-void Adafruit_GFX_Button::drawButton(boolean inverted) {
+void Adafruit_GFX_Button::drawButton(bool inverted) {
   uint16_t fill, outline, text;
 
   if (!inverted) {
@@ -1693,7 +1693,7 @@ void Adafruit_GFX_Button::drawButton(boolean inverted) {
     @returns  True if within button graphics outline
 */
 /**************************************************************************/
-boolean Adafruit_GFX_Button::contains(int16_t x, int16_t y) {
+bool Adafruit_GFX_Button::contains(int16_t x, int16_t y) {
   return ((x >= _x1) && (x < (int16_t)(_x1 + _w)) && (y >= _y1) &&
           (y < (int16_t)(_y1 + _h)));
 }
@@ -1704,7 +1704,7 @@ boolean Adafruit_GFX_Button::contains(int16_t x, int16_t y) {
    @returns  True if was not-pressed before, now is.
 */
 /**************************************************************************/
-boolean Adafruit_GFX_Button::justPressed() { return (currstate && !laststate); }
+bool Adafruit_GFX_Button::justPressed() { return (currstate && !laststate); }
 
 /**************************************************************************/
 /*!
@@ -1712,7 +1712,7 @@ boolean Adafruit_GFX_Button::justPressed() { return (currstate && !laststate); }
    @returns  True if was pressed before, now is not.
 */
 /**************************************************************************/
-boolean Adafruit_GFX_Button::justReleased() {
+bool Adafruit_GFX_Button::justReleased() {
   return (!currstate && laststate);
 }
 
